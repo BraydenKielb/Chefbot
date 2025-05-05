@@ -47,6 +47,16 @@ Recommendation: After all secondary questions, it identifies the Food object(s) 
 - Static questions:
 	- The questions are predefined and don't adapt based on previous answers (beyond skipping categories).
 - Error handling could be better
-
-
+  
+**Next steps:**
+1. Rework tagging completely
+   - we need some sort of natural language processing to analyze the food desciptions from the database and derive more accurate tags, or just a manual hardcoded tagging system
+3. Change the output of food recommendations
+   - EX: Instead of outputting 
+	   - Sausage, turkey, breakfast links, mild, raw (Score: 1) and Sausage, breakfast sausage, beef, pre-cooked, unprepared (Score: 1)
+   - In order to output sausage, just output "sausage" one time. You'll see what I mean when you run the program
+4. Implement complete meals with the combination of foods items
+   - Like structures for meals
+	   - EX: Breakfast = grain + protein + fruit
+     - then find multiple compatible food items from the API to fill the structure
 
