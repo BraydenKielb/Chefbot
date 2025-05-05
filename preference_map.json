@@ -1,0 +1,92 @@
+{
+  "cuisine": {
+    "italian": ["italian", "pasta", "pizza", "risotto", "lasagna"],
+    "mexican": ["mexican", "taco", "fajita", "burrito", "quesadilla", "enchilada"],
+    "indian": ["indian", "curry", "naan", "biryani", "tandoori"],
+    "chinese": ["chinese", "stir-fry", "chow mein", "fried rice", "dim sum"],
+    "thai": ["thai", "pad thai", "green curry", "red curry", "tom yum"],
+    "american": ["american", "burger", "bbq", "steak", "hot dog", "casserole", "mac and cheese"],
+    "french": ["french", "crepe", "croissant", "quiche", "souffle"],
+    "japanese": ["japanese", "sushi", "ramen", "teriyaki", "tempura"],
+    "canadian": ["canadian", "poutine"],
+    "jamaican": ["jamaican", "jerk"],
+    "moroccan": ["moroccan", "tagine", "couscous"],
+    "russian": ["russian", "borscht", "pelmeni"],
+    "spanish": ["spanish", "paella", "tapas", "gazpacho"],
+    "turkish": ["turkish", "kebab", "doner", "baklava"],
+    "vietnamese": ["vietnamese", "pho", "banh mi"],
+    "greek": ["greek", "gyro", "souvlaki", "moussaka"],
+    "mediterranean": ["mediterranean", "greek", "hummus", "falafel"]
+  },
+  "ingredient": {
+    "chicken": ["chicken"],
+    "beef": ["beef", "steak", "ground beef", "brisket"],
+    "pork": ["pork", "bacon", "ham", "sausage", "ribs"],
+    "lamb": ["lamb"],
+    "salmon": ["salmon"],
+    "tuna": ["tuna"],
+    "cod": ["cod"],
+    "shrimp": ["shrimp", "prawn"],
+    "eggs": ["egg", "eggs", "omelet", "omelette"],
+    "rice": ["rice"],
+    "pasta": ["pasta", "noodle", "spaghetti", "macaroni", "lasagna"],
+    "potatoes": ["potato", "potatoes"],
+    "tofu": ["tofu"],
+    "beans": ["bean", "beans", "lentil", "chickpea", "kidney bean", "black bean"],
+    "mushrooms": ["mushroom", "mushrooms"],
+    "tomato": ["tomato", "tomatoes"],
+    "cheese": ["cheese", "cheddar", "mozzarella", "parmesan", "feta"],
+    "onion": ["onion", "onions"],
+    "garlic": ["garlic"]
+  },
+  "category": {
+    "seafood": ["seafood", "fish", "shrimp", "salmon", "tuna", "cod", "shellfish"],
+    "vegetarian": ["vegetarian", "veggie", "meatless"],
+    "vegan": ["vegan"],
+    "dessert": ["dessert", "cake", "pie", "cookie", "ice cream", "sweet"],
+    "pasta": ["pasta", "noodle"],
+    "starter": ["starter", "appetizer", "side"],
+    "breakfast": ["breakfast", "brunch"],
+    "soup": ["soup", "stew", "chowder", "bisque"],
+    "salad": ["salad"]
+  },
+  "flavor": {
+    "spicy": ["spicy", "hot", "fiery", "piquant"],
+    "sweet": ["sweet", "sugary"],
+    "savory": ["savory", "umami", "meaty"],
+    "sour": ["sour", "tangy", "tart", "acidic"],
+    "rich": ["rich", "decadent", "hearty"],
+    "light": ["light", "fresh"],
+    "herby": ["herby", "herbaceous", "aromatic"],
+    "cheesy": ["cheesy", "cheese"]
+  },
+  "dietary": {
+    "vegetarian": ["vegetarian", "veggie", "meatless"],
+    "vegan": ["vegan", "plant-based"],
+    "gluten_free": ["gluten free", "gluten-free", "gf", "coeliac", "celiac"],
+    "dairy_free": ["dairy free", "dairy-free", "no milk", "no cheese", "lactose free", "lactose-free"]
+  },
+  "dislikes": {
+    "mushrooms": ["mushroom", "mushrooms"],
+    "olives": ["olive", "olives"],
+    "cilantro": ["cilantro", "coriander"],
+    "anchovies": ["anchovy", "anchovies"],
+    "blue cheese": ["blue cheese", "gorgonzola", "stilton", "roquefort"],
+    "eggplant": ["eggplant", "aubergine"],
+    "liver": ["liver"],
+    "oysters": ["oyster", "oysters"],
+    "capers": ["caper", "capers"]
+  },
+   "known_meats": {
+      "meat": ["beef", "pork", "lamb", "veal", "venison", "bison", "goat", "ham", "sausage", "bacon", "frankfurter", "hot dog", "steak", "ground beef", "pork chop", "ribs", "chorizo", "pepperoni", "salami", "prosciutto", "pancetta", "mortadella", "biltong", "jerky", "offal", "tripe", "sweetbread", "kidney", "liver", "tongue", "lard", "tallow", "suet", "gelatin", "aspic", "broth", "stock", "bouillon", "consomme", "gravy", "demi-glace"],
+      "poultry": ["chicken", "turkey", "duck", "goose", "quail", "hen", "capon", "cornish hen", "foie gras", "giblets"],
+      "fish": ["anchovy", "bass", "catfish", "cod", "flounder", "grouper", "haddock", "halibut", "herring", "mackerel", "mahi-mahi", "monkfish", "perch", "pike", "pollock", "salmon", "sardine", "snapper", "sole", "swordfish", "tilapia", "trout", "tuna", "whitefish", "eel", "surimi", "roe", "caviar", "fish oil", "fish sauce", "worcestershire sauce"],
+      "seafood": ["shrimp", "prawn", "crab", "lobster", "clam", "oyster", "scallop", "mussel", "crayfish", "squid", "calamari", "octopus", "sea urchin", "abalone"]
+   },
+   "known_dairy": {
+       "dairy": ["milk", "cheese", "yogurt", "butter", "cream", "sour cream", "cottage cheese", "cream cheese", "ghee", "kefir", "whey", "casein", "lactose", "lactalbumin", "lactoglobulin", "mozzarella", "parmesan", "cheddar", "feta", "ricotta", "mascarpone", "brie", "camembert", "gouda", "provolone", "swiss cheese", "blue cheese", "half-and-half", "buttermilk", "condensed milk", "evaporated milk", "milk powder", "ice cream", "gelato", "sherbet", "pudding", "custard"]
+   },
+   "known_gluten": {
+        "gluten": ["wheat", "barley", "rye", "oat", "oats", "spelt", "kamut", "triticale", "semolina", "durum", "farro", "einkorn", "emmer", "couscous", "bulgur", "flour", "bread", "pasta", "noodle", "cracker", "biscuit", "cake", "pie", "pastry", "crouton", "malt", "brewer's yeast", "soy sauce", "teriyaki sauce", "seitan", "matzo", "communion wafer", "panko", "breadcrumb", "gravy", "roux", "beer", "ale", "lager", "stout"]
+   }
+}
