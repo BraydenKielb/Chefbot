@@ -16,14 +16,14 @@
             - Get detailed information for specific meals (like ingredients, instructions, etc.).  
         - It includes basic error handling for API calls (timeouts, connection issues).  
 
-  - **Preference Map (preference_map.json - crucial external file):**
+  - **Preference Map (preference_map.json - crucial external file):**  
         - This JSON file defines:  
             - Keywords and synonyms for different preference types (e.g., "italian" cuisine might have keywords like "pasta", "pizza").  
             - Mappings for dietary restrictions (e.g., what ingredients make a dish non-vegetarian or non-gluten-free).  
             - Lists of known meats, dairy, and gluten-containing items for accurate dietary filtering.  
         - The bot uses this map to understand your input and to perform detailed checks on meal ingredients.  
         
-   - **Natural Language Processing (parse_input_nlp):**
+   - **Natural Language Processing (parse_input_nlp):**  
         - It uses the spaCy library for basic Natural Language Processing.
         - When you type something, this function tries to:
             - Identify your intent (e.g., stating a preference, asking a question, expressing a dislike).
