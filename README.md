@@ -9,19 +9,19 @@
 
 **Detailed explanation:**
 
- **TheMealDB API Interaction (call_mealdb_api, fetch_mealdb_lists, get_meal_details):**
-        - The program communicates with TheMealDB API (https://www.themealdb.com/api.php) to:
-            - Fetch lists of available cuisines (areas), main ingredients, and categories at the start.
-            - Search for meals based on a primary filter (cuisine, ingredient, or category).
-            - Get detailed information for specific meals (like ingredients, instructions, etc.).
-        - It includes basic error handling for API calls (timeouts, connection issues).
+ **TheMealDB API Interaction (call_mealdb_api, fetch_mealdb_lists, get_meal_details):**  
+        - The program communicates with TheMealDB API (https://www.themealdb.com/api.php) to:    
+            - Fetch lists of available cuisines (areas), main ingredients, and categories at the start.  
+            - Search for meals based on a primary filter (cuisine, ingredient, or category).  
+            - Get detailed information for specific meals (like ingredients, instructions, etc.).  
+        - It includes basic error handling for API calls (timeouts, connection issues).  
 
   - **Preference Map (preference_map.json - crucial external file):**
-        - This JSON file defines:
-            - Keywords and synonyms for different preference types (e.g., "italian" cuisine might have keywords like "pasta", "pizza").
-            - Mappings for dietary restrictions (e.g., what ingredients make a dish non-vegetarian or non-gluten-free).
-            - Lists of known meats, dairy, and gluten-containing items for accurate dietary filtering.
-        - The bot uses this map to understand your input and to perform detailed checks on meal ingredients.
+        - This JSON file defines:  
+            - Keywords and synonyms for different preference types (e.g., "italian" cuisine might have keywords like "pasta", "pizza").  
+            - Mappings for dietary restrictions (e.g., what ingredients make a dish non-vegetarian or non-gluten-free).  
+            - Lists of known meats, dairy, and gluten-containing items for accurate dietary filtering.  
+        - The bot uses this map to understand your input and to perform detailed checks on meal ingredients.  
         
    - **Natural Language Processing (parse_input_nlp):**
         - It uses the spaCy library for basic Natural Language Processing.
@@ -61,15 +61,15 @@
         - Users can type "skip", "any", "no", "none" to bypass questions, or "quit" to exit.
 
 **Example Flow:**
-        - Welcome & Initial Question: Bot asks for cuisine/ingredient.
-                - You: "mexican and chicken"
-        - Gathering More Preferences: Bot asks about category, dislikes, dietary needs.
-                - You might skip some or provide answers like "no mushrooms" or "vegetarian".
-    - Confirmation: Bot summarizes preferences and asks to search.
-                - You: "yes"
-    - Search & Filter:
-        - Bot tries searching TheMealDB (e.g., first by "cuisine: mexican").
-        - It then filters these results to ensure they also contain "chicken" and meet other criteria.
-        - If the first attempt (e.g., by cuisine) + filtering yields no results, it might try another primary search (e.g., by "ingredient: chicken") and then filter those for "mexican" cuisine.
-    - Show Results: Bot lists matching meals.
-    - Details: You can ask for a specific meal's recipe.
+        - Welcome & Initial Question: Bot asks for cuisine/ingredient.  
+                - You: "mexican and chicken"  
+        - Gathering More Preferences: Bot asks about category, dislikes, dietary needs.  
+                - You might skip some or provide answers like "no mushrooms" or "vegetarian".  
+    - Confirmation: Bot summarizes preferences and asks to search.  
+                - You: "yes"  
+    - Search & Filter:  
+        - Bot tries searching TheMealDB (e.g., first by "cuisine: mexican").  
+        - It then filters these results to ensure they also contain "chicken" and meet other criteria.  
+        - If the first attempt (e.g., by cuisine) + filtering yields no results, it might try another primary search (e.g., by "ingredient: chicken") and then filter those for "mexican" cuisine.  
+    - Show Results: Bot lists matching meals.  
+    - Details: You can ask for a specific meal's recipe.  
