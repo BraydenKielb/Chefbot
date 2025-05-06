@@ -8,6 +8,7 @@
 
 
 **Detailed explanation:**
+
  **TheMealDB API Interaction (call_mealdb_api, fetch_mealdb_lists, get_meal_details):**
         - The program communicates with TheMealDB API (https://www.themealdb.com/api.php) to:
             - Fetch lists of available cuisines (areas), main ingredients, and categories at the start.
@@ -31,7 +32,7 @@
             - Detect simple negations (e.g., "no chicken" or "without mushrooms").
         - It has a two-pass system: first looking for multi-word phrases defined in your preference map, then individual tokens. It also prioritizes matching based on the current question the bot is asking.
 
-   - Dialogue Management (State Machine - chatbot_state_machine):
+   - **Dialogue Management (State Machine - chatbot_state_machine):**
         - The core of the interaction is a state machine. The bot transitions through different states:
             - FETCHING_LISTS: Loads initial data from TheMealDB.
             - ASKING_CUISINE_INGREDIENT: Asks for primary preferences.
@@ -55,20 +56,20 @@
             - EXITING: Ends the conversation.
             E- RROR_STATE: Handles unexpected errors.
 
-   - User Interaction:
+   - **User Interaction:**
         - The bot uses command-line prompts and input.
         - Users can type "skip", "any", "no", "none" to bypass questions, or "quit" to exit.
 
 **Example Flow:**
-    Welcome & Initial Question: Bot asks for cuisine/ingredient.
-        You: "mexican and chicken"
-    Gathering More Preferences: Bot asks about category, dislikes, dietary needs.
-        You might skip some or provide answers like "no mushrooms" or "vegetarian".
-    Confirmation: Bot summarizes preferences and asks to search.
-        You: "yes"
-    Search & Filter:
-        Bot tries searching TheMealDB (e.g., first by "cuisine: mexican").
-        It then filters these results to ensure they also contain "chicken" and meet other criteria.
-        If the first attempt (e.g., by cuisine) + filtering yields no results, it might try another primary search (e.g., by "ingredient: chicken") and then filter those for "mexican" cuisine.
-    Show Results: Bot lists matching meals.
-    Details: You can ask for a specific meal's recipe.
+        - Welcome & Initial Question: Bot asks for cuisine/ingredient.
+                - You: "mexican and chicken"
+        - Gathering More Preferences: Bot asks about category, dislikes, dietary needs.
+                - You might skip some or provide answers like "no mushrooms" or "vegetarian".
+    - Confirmation: Bot summarizes preferences and asks to search.
+                - You: "yes"
+    - Search & Filter:
+        - Bot tries searching TheMealDB (e.g., first by "cuisine: mexican").
+        - It then filters these results to ensure they also contain "chicken" and meet other criteria.
+        - If the first attempt (e.g., by cuisine) + filtering yields no results, it might try another primary search (e.g., by "ingredient: chicken") and then filter those for "mexican" cuisine.
+    - Show Results: Bot lists matching meals.
+    - Details: You can ask for a specific meal's recipe.
