@@ -4,55 +4,71 @@
 - preference_map.json for configuration data (keywords, dietary lists)
 
 **Issues:**
-- When selecting multiple filters (category, main ingredient, cuisine) the program attempts to compare each API search, but each list does not always have an intersection of meals, so it will often return "0 meals in intersection" if you use multiple filters
+- Besides limitations to the mealdb, lemme know when you find them
 
 
 **Detailed explanation:**
-Libraries:
-- requests: Used to make HTTP requests to TheMealDB API to fetch meal data.
-- spacy: A Natural Language Processing library used in parse_input_nlp to process user input (tokenize words, find base forms/lemmas, analyze sentence structure/dependencies for negation).
-- json: Used to load the configuration data (keywords, dietary lists) from the preference_map.json file.
-- re: The regular expression module, used extensively for pattern matching when checking keywords in text (e.g., ensuring "fat" isn't matched within "fatty", checking for exceptions like "gluten-free").
-- sys, time, random: Standard libraries for system functions (like exiting), pausing execution, and making random choices.
+ **TheMealDB API Interaction (call_mealdb_api, fetch_mealdb_lists, get_meal_details):**
+        - The program communicates with TheMealDB API (https://www.themealdb.com/api.php) to:
+            - Fetch lists of available cuisines (areas), main ingredients, and categories at the start.
+            - Search for meals based on a primary filter (cuisine, ingredient, or category).
+            - Get detailed information for specific meals (like ingredients, instructions, etc.).
+        - It includes basic error handling for API calls (timeouts, connection issues).
 
-Configuration (preference_map.json):
-- This external JSON file stores crucial data:
-- Mappings from preference keys (like "italian") to lists of keywords ("italian", "pasta", "pizza").
-- Lists of known meat, dairy, and gluten-containing ingredients used for dietary filtering.
-- Loading this at the start (load_preference_map) makes the bot's knowledge easily configurable.
+  - **Preference Map (preference_map.json - crucial external file):**
+        - This JSON file defines:
+            - Keywords and synonyms for different preference types (e.g., "italian" cuisine might have keywords like "pasta", "pizza").
+            - Mappings for dietary restrictions (e.g., what ingredients make a dish non-vegetarian or non-gluten-free).
+            - Lists of known meats, dairy, and gluten-containing items for accurate dietary filtering.
+        - The bot uses this map to understand your input and to perform detailed checks on meal ingredients.
+        
+   - **Natural Language Processing (parse_input_nlp):**
+        - It uses the spaCy library for basic Natural Language Processing.
+        - When you type something, this function tries to:
+            - Identify your intent (e.g., stating a preference, asking a question, expressing a dislike).
+            - Extract key entities (like "chicken", "mexican", "vegetarian") from your input.
+            - Map these entities to the preference types defined in preference_map.json.
+            - Detect simple negations (e.g., "no chicken" or "without mushrooms").
+        - It has a two-pass system: first looking for multi-word phrases defined in your preference map, then individual tokens. It also prioritizes matching based on the current question the bot is asking.
 
-API Interaction (call_mealdb_api, fetch_mealdb_lists, get_meal_details):
-- These functions handle communication with TheMealDB.
-- fetch_mealdb_lists: Gets the initial lists of valid categories, areas (cuisines), and ingredients from the API.
-- call_mealdb_api: A general function to send requests to different API endpoints (like filter.php for searching or lookup.php for details), including basic error handling (timeouts, connection issues, HTTP errors) and parsing the JSON response.
-- get_meal_details: Specifically calls the lookup.php endpoint to get full recipe details for a given meal ID.
+   - Dialogue Management (State Machine - chatbot_state_machine):
+        - The core of the interaction is a state machine. The bot transitions through different states:
+            - FETCHING_LISTS: Loads initial data from TheMealDB.
+            - ASKING_CUISINE_INGREDIENT: Asks for primary preferences.
+            - ASKING_CATEGORY, ASKING_DISLIKES, ASKING_DIETARY: Gathers more details (the "flavor" question was recently removed).
+            - HANDLE_NEGATION: Processes dislikes or negated preferences.
+            - CLARIFY_PREFERENCE: Asks for clarification if input is ambiguous for certain preference types.
+            - READY_TO_SEARCH: Summarizes preferences and confirms before searching.
+            - SEARCHING:
+                - Constructs a list of search attempts (prioritizing cuisine, then ingredient, then category).
+                - Calls TheMealDB API for each attempt.
+                - Passes results to filter_meal_results.
+                - If no results, suggests random meals (also filtered).
+            - FILTERING (withinfilter_meal_resultsfunction):
+                - Fetches detailed information for each meal.
+                - Checks against all stated preferences:
+                    - check_dislikes: Ensures no disliked items.
+                    - check_dietary_restrictions: Ensures dietary needs are met.
+                    - Performs secondary checks for cuisine, category, or ingredient if they weren't the primary API search filter. For instance, if the API search was by "cuisine: Mexican", this step ensures that if you also specified "ingredient: chicken", only Mexican dishes with chicken are kept.
+            - SHOWING_RESULTS: Displays suitable meal ideas.
+            - GETTING_DETAILS: Allows selection of a meal for its full recipe.
+            - EXITING: Ends the conversation.
+            E- RROR_STATE: Handles unexpected errors.
 
-NLP Parsing (parse_input_nlp):
-- Takes the user's raw text input.
-- Uses spaCy to process the text into tokens and analyze grammatical dependencies.
-- Intent Recognition: Performs basic checks (e.g., for question marks or starting question words) to guess if the user is asking a question or stating a preference/negation.
-- Entity/Keyword Extraction: Matches lemmas (base forms of words) against the keywords loaded from preference_map.json.
-- Negation Handling: Uses spaCy's dependency parse to detect negation words ("not", "no") or prepositions ("without") linked to keywords, marking those preferences as 'negated'.
-- Returns a structured dictionary containing the detected intent and the extracted entities (positive preferences, negated terms).
+   - User Interaction:
+        - The bot uses command-line prompts and input.
+        - Users can type "skip", "any", "no", "none" to bypass questions, or "quit" to exit.
 
-State Machine (chatbot_state_machine, DialogueState):
-- The core logic controlling the conversation flow.
-- DialogueState defines the possible stages of the conversation (e.g., ASKING_CUISINE, SEARCHING, SHOWING_RESULTS).
-- The chatbot_state_machine function loops, executing code based on the current_state.
-- Transitions between states are determined by user input (parsed intent/entities), whether clarification is needed, or whether all questions in the defined QUESTION_ORDER have been asked.
-
-Preference Management:
-- The preferences dictionary stores the user's choices throughout the conversation (e.g., {'cuisine': ['mexican'], 'dislikes': ['olives']}).
-- The CLARIFY_PREFERENCE state handles ambiguity if the user mentions multiple primary options (cuisine, ingredient, category) at once.
-
-Search Strategy (SEARCHING state):
-- Implements a prioritized approach:
-- Tries an Intersection search if multiple single primary criteria are given (e.g., search 'pasta' and 'italian' separately and find common meals).
-- Falls back to a Single Primary Filter search based on Ingredient > Category > Cuisine order.
-- Uses a Random search as a final fallback.
-
-Filtering Logic (filter_meal_results, check_dietary_restrictions, check_dislikes):
-- Takes the initial list of meals from the API search.
-- Optimized Detail Fetching: Crucially, it only calls get_meal_details (which is slow) if necessary – specifically, if the user has mentioned dislikes or dietary restrictions, or if secondary filtering (like checking cuisine/category/flavor against details) is required.
-- Applies filters based on dislikes and dietary needs by checking ingredients against the detailed lists in preference_map.json (including basic exception handling like "gluten-free soy sauce").
-- Also filters based on secondary criteria (like cuisine or flavor tags) if details were fetched.
+**Example Flow:**
+    Welcome & Initial Question: Bot asks for cuisine/ingredient.
+        You: "mexican and chicken"
+    Gathering More Preferences: Bot asks about category, dislikes, dietary needs.
+        You might skip some or provide answers like "no mushrooms" or "vegetarian".
+    Confirmation: Bot summarizes preferences and asks to search.
+        You: "yes"
+    Search & Filter:
+        Bot tries searching TheMealDB (e.g., first by "cuisine: mexican").
+        It then filters these results to ensure they also contain "chicken" and meet other criteria.
+        If the first attempt (e.g., by cuisine) + filtering yields no results, it might try another primary search (e.g., by "ingredient: chicken") and then filter those for "mexican" cuisine.
+    Show Results: Bot lists matching meals.
+    Details: You can ask for a specific meal's recipe.
